@@ -1,0 +1,20 @@
+{
+  "name": "viewit",
+  "version": "1.0.0",
+  "description": "mcp server for viewit",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.1.10",
+    "openai": "^6.3.0",
+    "sqlite3": "^5.1.7"
+  }
+}
