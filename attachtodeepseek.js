@@ -54,11 +54,14 @@ async function callMCP(method, args) {
 }
 
 async function main(userPrompt) {
+    // construct system and user prompts
     const messages = [
         { role: 'system', content: 'be concise. use tools when they help answer the question.' },
         { role: 'user', content: userPrompt },
     ];
 
+    
+    // call the LLM with the messages and tools
     const first = await llm.chat.completions.create({
         model: "anthropic/claude-haiku-4.5",
         messages,
@@ -74,6 +77,8 @@ async function main(userPrompt) {
         return choice?.message?.content || '';
     }
 
+    // if there are tool calls, call the MCP server with the tool name and arguments
+
     const toolMessages = [];
     for (const call of toolCalls) {
         const name = call.function.name;
@@ -88,6 +93,8 @@ async function main(userPrompt) {
         });
     }
 
+    // call the LLM with the messages and tools
+
     const second = await llm.chat.completions.create({
         model: "anthropic/claude-haiku-4.5",
         messages: [
@@ -97,6 +104,8 @@ async function main(userPrompt) {
         ],
         temperature: 0,
     });
+
+    // return the final text
 
     const finalText = second.choices?.[0]?.message?.content || '';
 
@@ -110,3 +119,5 @@ async function run() {
 }
 
 run();
+
+// 2 LLM calls, 1 to decide which tool to use, 1 to use the tool and return the result
